@@ -9,6 +9,7 @@ class Relative(models.Model):
     host = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
 
     def __str__(self):
+
         return self.name
 
 
