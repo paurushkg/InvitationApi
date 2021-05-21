@@ -35,15 +35,13 @@ class Groom(models.Model):
 class Event(models.Model):
     host = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     date_and_time = models.DateTimeField()
-    bride = models.ForeignKey(to=Bride,
+    bride = models.OneToOneField(to=Bride,
                               on_delete=models.CASCADE,
                               null=False,
-                              unique=True,
                             )
-    groom = models.ForeignKey(to=Groom,
+    groom = models.OneToOneField(to=Groom,
                               on_delete=models.CASCADE,
                               null=False,
-                              unique=True,
                             )
 
     def __str__(self):
