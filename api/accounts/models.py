@@ -33,6 +33,8 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser):
+    first_name = models.CharField(max_length=255)
+    last_name = models.CharField(max_length=255)
     email = models.EmailField(max_length=255, unique=True, null=True)
     phone_number = models.CharField(max_length=10, unique=True)
     active = models.BooleanField(default=True)
