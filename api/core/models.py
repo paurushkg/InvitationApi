@@ -17,7 +17,6 @@ class Relative(models.Model):
     message = models.CharField(max_length=255)
     address = models.CharField(max_length=127)
     with_family = models.BooleanField(default=False)
-    host = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     event = models.ForeignKey(to=Event, on_delete=models.CASCADE)
 
     def __str__(self):

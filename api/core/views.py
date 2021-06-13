@@ -1,29 +1,32 @@
 from rest_framework import status, generics
 from rest_framework.permissions import IsAuthenticated
-
+from rest_framework.exceptions import NotFound
 from . serializers import *
 
 
-class RelativeView(generics.ListCreateAPIView):
+class RelativeListCreateView(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated, ]
     serializer_class = RelativeSerializer
     lookup_field = 'event_name'
 
-    def get_queryset(self):
+    def get_event_object(self):
         event_name = self.kwargs['event_name']
         user = self.request.user
-        event = Event.objects.get(name=event_name)
-        qs = Relative.objects.filter(host=user, event=event)
+        try:
+            event = Event.objects.get(host=user, name=event_name)
+            return event
+        except Event.DoesNotExist:
+            raise NotFound({"detail": event_name + " " + "event not found"})
+
+    def get_queryset(self):
+        qs = Relative.objects.filter(event=self.get_event_object())
         return qs
 
     def perform_create(self, serializer):
-        event_name = self.kwargs['event_name']
-        user = self.request.user
-        event = Event.objects.get(name=event_name)
-        serializer.save(host=user, event=event)
+        serializer.save(event=self.get_event_object())
 
 
-class EventView(generics.ListCreateAPIView):
+class EventListCreateView(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated, ]
     serializer_class = EventSerializer
 
@@ -37,61 +40,70 @@ class EventView(generics.ListCreateAPIView):
         serializer.save(host=user)
 
 
-class MiniEventView(generics.ListCreateAPIView):
+class MiniEventListCreateView(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated, ]
     serializer_class = MiniEventSerializer
     queryset = MiniEvent.objects.all()
     lookup_field = 'event_name'
 
-    def filter_queryset(self, queryset):
+    def get_event_object(self):
         event_name = self.kwargs['event_name']
         user = self.request.user
-        event = Event.objects.get(host=user, name=event_name)
-        qs = queryset.filter(event=event)
+        try:
+            event = Event.objects.get(host=user, name=event_name)
+            return event
+        except Event.DoesNotExist:
+            raise NotFound({"detail": event_name + " " + "event not found"})
+
+    def filter_queryset(self, queryset):
+        qs = queryset.filter(event=self.get_event_object())
         return qs
 
     def perform_create(self, serializer):
-        event_name = self.kwargs['event_name']
-        user = self.request.user
-        event = Event.objects.get(host=user, name=event_name)
-        serializer.save(event=event)
+        serializer.save(event=self.get_event_object())
 
 
-class GroomView(generics.ListCreateAPIView):
+class GroomListCreateView(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated, ]
     serializer_class = GroomSerializer
     queryset = Groom.objects.all()
     lookup_field = 'event_name'
 
-    def filter_queryset(self, queryset):
+    def get_event_object(self):
         event_name = self.kwargs['event_name']
         user = self.request.user
-        event = Event.objects.get(host=user, name=event_name)
-        qs = queryset.get(envent=event)
+        try:
+            event = Event.objects.get(host=user, name=event_name)
+            return event
+        except Event.DoesNotExist:
+            raise NotFound({"detail": event_name + " " + "event not found"})
+
+    def filter_queryset(self, queryset):
+        qs = queryset.get(envent=self.get_event_object())
         return qs
 
     def perform_create(self, serializer):
-        event_name = self.kwargs['event_name']
-        user = self.request.user
-        event = Event.objects.get(host=user, name=event_name)
-        serializer.save(event=event)
+        serializer.save(event=self.get_event_object())
 
 
-class BrideView(generics.ListCreateAPIView):
+class BrideListCreateView(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticated, ]
     serializer_class = BrideSerializer
     queryset = Bride.objects.all()
     lookup_field = 'event_name'
 
-    def filter_queryset(self, queryset):
+    def get_event_object(self):
         event_name = self.kwargs['event_name']
         user = self.request.user
-        event = Event.objects.get(host=user, name=event_name)
-        qs = queryset.get(envent=event)
+        try:
+            event = Event.objects.get(host=user, name=event_name)
+            return event
+        except Event.DoesNotExist:
+            raise NotFound({"detail": event_name + " " + "event not found"})
+
+    def filter_queryset(self, queryset):
+        qs = queryset.get(envent=self.get_event_object())
         return qs
 
     def perform_create(self, serializer):
-        event_name = self.kwargs['event_name']
-        user = self.request.user
-        event = Event.objects.get(host=user, name=event_name)
-        serializer.save(event=event)
+        serializer.save(event=self.get_event_object())

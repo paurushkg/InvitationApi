@@ -15,7 +15,7 @@ class RelativeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Relative
         fields = '__all__'
-        read_only_fields = ['host', 'event']
+        read_only_fields = ['event']
 
 
 class MiniEventSerializer(serializers.ModelSerializer):
