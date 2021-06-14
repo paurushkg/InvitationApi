@@ -7,11 +7,10 @@ from drf_yasg import openapi
 
 schema_view = get_schema_view(
    openapi.Info(
-      title="Snippets API",
+      title="Invitation API",
       default_version='v1',
       description="Test description",
-      terms_of_service="https://www.google.com/policies/terms/",
-      contact=openapi.Contact(email="contact@snippets.local"),
+      contact=openapi.Contact(email="gpaurush39@gmail.com"),
       license=openapi.License(name="BSD License"),
    ),
    public=True,
