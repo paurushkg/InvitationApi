@@ -42,12 +42,12 @@ class ChangePasswordView(APIView):
     def post(self, request):
         phone_number = request.user.phone_number
 
-        serializer = ChangePasswordSerializer(request.data)
+        serializer = ChangePasswordSerializer(data=request.data)
         data = {}
         if serializer.is_valid():
             serializer.save(phone_number)
             data['detail'] = 'password changed successfully'
-            return Response(data, status=status.HTTP_200_OK)
+            return Response(data, status=status.HTTP_202_ACCEPTED)
         else:
             data = serializer.errors
             return Response(data, status=status.HTTP_400_BAD_REQUEST)
