@@ -28,4 +28,23 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         return user
 
 
+class ChangePasswordSerializer(serializers.Serializer):
+    old_password = serializers.CharField(style={'input_type': 'password'}, write_only=True)
+    new_password = serializers.CharField(style={'input_type': 'password'}, write_only=True)
+    confirm_new_password = serializers.CharField(style={'input_type': 'password'}, write_only=True)
 
+    def save(self, phone_number):
+        old_password = self.validated_data['old_password']
+        new_password = self.validated_data['new_password']
+        confirm_new_password = self.validated_data['confirm_new_password']
+
+        if new_password != confirm_new_password:
+            raise serializers.ValidationError({'detail': "password don't match"})
+
+        user = User.objects.get(phone_number=phone_number)
+        if not user.check_password(old_password):
+            raise serializers.ValidationError({'detail': "wrong password"})
+        else:
+            user.set_password(new_password)
+            user.save()
+            return user
