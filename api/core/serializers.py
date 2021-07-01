@@ -37,3 +37,11 @@ class BrideSerializer(serializers.ModelSerializer):
         model = Bride
         fields = '__all__'
         read_only_fields = ['event']
+
+
+class CardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Card
+        fields = '__all__'
+        read_only_fields = ['relative', 'link_slug']
+        depth = 2

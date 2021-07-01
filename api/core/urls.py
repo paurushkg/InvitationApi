@@ -18,4 +18,9 @@ urlpatterns = [
     path('bride/<str:event_name>/', BrideListCreateView.as_view()),
     path('update-bride/<str:event_name>/<int:id>/', BrideUpdateDeleteView.as_view()),
 
+    path('card/<str:event_name>/<int:relative_id>', CardListCreateView.as_view()),
+    path('delete-card/<str:link_slug>', CardDeleteView.as_view()),
+
+    path('invite/<str:link_slug>', InviteView.as_view()),
+
 ]

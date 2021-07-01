@@ -20,7 +20,7 @@ class Relative(models.Model):
     event = models.ForeignKey(to=Event, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.name + "-" + str(self.host)
+        return self.name + "-" + str(self.event)
 
 
 class MiniEvent(models.Model):
@@ -40,7 +40,7 @@ class Bride(models.Model):
     event = models.OneToOneField(to=Event, on_delete=models.CASCADE)
 
     def __str__(self):
-        self.name
+        return self.name
 
 
 class Groom(models.Model):
@@ -51,4 +51,12 @@ class Groom(models.Model):
     event = models.OneToOneField(to=Event, on_delete=models.CASCADE)
 
     def __str__(self):
-        self.name
+        return self.name
+
+
+class Card(models.Model):
+    relative = models.OneToOneField(to=Relative, on_delete=models.CASCADE)
+    link_slug = models.CharField(max_length=10)
+
+    def __str__(self):
+        return self.relative.name

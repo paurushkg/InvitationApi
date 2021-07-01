@@ -5,4 +5,6 @@ admin.site.register(Groom)
 admin.site.register(Bride)
 admin.site.register(Event)
 admin.site.register(Relative)
+admin.site.register(MiniEvent)
+admin.site.register(Card)
 
